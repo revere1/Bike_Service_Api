@@ -8,9 +8,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login/:mobileNo', async (req, res) => {
-    // if(req.param.mobileNo)
+     console.log("This is params: "+req.params.mobileNo)
     if (req.params.mobileNo.length > 9) {
-
         var OTP = Math.floor((Math.random() * 9999) + 1111);
 
         try {
@@ -48,12 +47,18 @@ router.get('/login/:mobileNo', async (req, res) => {
     // res.json(OTP)
 });
 
-router.post('/otp', (req, res) => {
+router.get('/otp/:otp/:mobileNo', (req, res) => {
     try {
-        db.query(queries.checkUser, [req.body.otp, req.body.mobileNo], (error, result) => {
+        db.query(queries.loginOtp, [req.params.otp, req.params.mobileNo], (error, result) => {
+            console.log(result)
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
 
-            res.json({ 'status': 200, 'Message': 'Login Success' })
+            if(result.length > 0){
+                res.json({ 'status': 200, 'Message': 'Login Success' });
+            } else{
+                res.json({ 'status': 404, 'Message': 'Please Send Valid OTP' });
+                // throw error;
+            }
         });
     } catch (error) {
         res.json({
@@ -67,6 +72,8 @@ router.post('/otp', (req, res) => {
 router.get('/myProfile/:mobileNo', (req, res) => {
     try {
         db.query(queries.checkUser, [req.params.mobileNo], (error, result) => {
+
+            console.log(error)
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
             res.json({
                 'status': 200,
@@ -84,7 +91,7 @@ router.get('/myProfile/:mobileNo', (req, res) => {
 router.put('/updateProfile/:userId', (req, res) => {
     console.log(req.body)
     try {
-        db.query(queries.updateProfile, [req.body.mobile_number, req.body.full_name, req.body.full_address, req.body.gender, req.body.dob, req.body.email, req.params.userId], (error, result) => {
+        db.query(queries.updateProfile, [req.body.mobile_number, req.body.full_name, req.body.full_address, req.body.gender, req.body.dob, req.body.email, req.body.zip,req.params.userId], (error, result) => {
 
             console.log(error)
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
