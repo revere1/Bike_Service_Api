@@ -54,7 +54,7 @@ router.get('/otp/:otp/:mobileNo', (req, res) => {
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
 
             if(result.length > 0){
-                res.json({ 'status': 200, 'Message': 'Login Success' });
+                res.json({ 'status': 200, 'Message': 'Login Success', 'payLoad': result[0] });
             } else{
                 res.json({ 'status': 404, 'Message': 'Please Send Valid OTP' });
                 // throw error;
@@ -89,9 +89,9 @@ router.get('/myProfile/:mobileNo', (req, res) => {
 
 });
 router.put('/updateProfile/:userId', (req, res) => {
-    console.log(req.body)
+    console.log('update body', req.body)
     try {
-        db.query(queries.updateProfile, [req.body.mobile_number, req.body.full_name, req.body.full_address, req.body.gender, req.body.dob, req.body.email, req.body.zip,req.params.userId], (error, result) => {
+        db.query(queries.updateProfile, [req.body,req.params.userId], (error, result) => {
 
             console.log(error)
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });

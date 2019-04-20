@@ -53,4 +53,24 @@ router.get('/history/:userId', (req, res, next) => {
     }
 });
 
+router.put('/cancel/:userdId/:bookId', (req, res, next) => {
+    try {
+        db.query(queries.InActiveBookings, [req.params.userdId], (error, result) => {
+            if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
+            // req.body.status = 'Active';
+            db.query(queries.cancelBookings, [req.params.bookId], (error, result) => {
+                console.log(error)
+                if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
+    
+                return res.json({
+                    'status':200,
+                    'Message': 'Booking Service Canceled Successfully'
+                });
+            });
+        });
+    } catch (error) {
+        return res.json({'status': 500, 'Message': 'Unable to Connect Server'});   
+    }
+});
+
 module.exports = router;

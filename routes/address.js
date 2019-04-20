@@ -55,7 +55,7 @@ router.get('/:userId/:addressId', (req,res,next) =>{
 router.put('/:addressId/:userId', (req,res,next) =>{
     try {
         let address = req.body;
-        db.query(queries.updateAddress,[req.params.userId,address.email,address.full_address,address.city,address.pincode,req.params.addressId], (error, result) =>{
+        db.query(queries.updateAddress,[req.body,req.params.addressId,req.params.userId], (error, result) =>{
             if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
 
             return res.json({
@@ -68,9 +68,10 @@ router.put('/:addressId/:userId', (req,res,next) =>{
     }
 });
 
-router.delete('/:userId/:addressId', (req, res, next) =>{
+router.delete('/:addressId', (req, res, next) =>{
     try {
-        db.query(queries.deleteAddress,[req.params.userId,req.params.addressId], (error, result) => {
+        console.log('adrre',req.params.addressId);
+        db.query(queries.deleteAddress,[req.params.addressId], (error, result) => {
             if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
             
             return res.json({
