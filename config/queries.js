@@ -10,8 +10,11 @@ module.exports = {
     deleteAddress: 'delete from user_address where id_user_address = ?',
     getSelectedAddress: 'select * from user_address where id_user = ? and id_user_address = ?',
     createBookings: 'insert into booked_services set ?',
-    cancelBookings: "update booked_services set status = 'InActive' where id_book_services = ?",
-    getAllBookings: "select bs.*, up.full_name, up.mobile_number from booked_services bs left join user_profile as up on up.id_user = bs.id_user where bs.id_user = ? and bs.status = 'Active'",
+    cancelBookings: "update booked_services set status = 'Cancelled' where id_book_services = ? and id_user = ?",
+    getAllBookings: "select bs.*, up.full_name, up.mobile_number from booked_services bs left join user_profile as up on up.id_user = bs.id_user where bs.id_user = ?",
+    getSelectedBookingDetails: 'select * from booked_services where id_book_services = ? and id_user = ?',
     getAllHistoryBookings: "select * from booked_services where id_user = ?",
-    InActiveBookings: "update booked_services set status = 'InActive' where id_user = ?"
+    InActiveBookings: "update booked_services set status = 'InActive' where id_user = ?",
+    InActiveAddress:"update user_address set status = 'InActive' where id_user = ?",
+    addressStatus:"update user_address set status = 'Active' where id_user_address = ?"
 }

@@ -26,6 +26,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/:userId', (req, res, next) => {
     try {
+        console.log('orderuser',req.params.userId)
         db.query(queries.getAllBookings, [req.params.userId], (error, result) => {
             if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
 
@@ -35,6 +36,22 @@ router.get('/:userId', (req, res, next) => {
             });
         });
     } catch (error) {
+        return res.json({'status': 500, 'Message': 'Unable to Connect Server'});   
+    }
+});
+
+router.get('/details/:userId/:bookId', (req, res, next) => {
+    try {
+        db.query(queries.getSelectedBookingDetails, [req.params.bookId, req.params.userId], (error, result) => {
+            if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
+
+            return res.json({
+                'status':200,
+                'result': result[0]
+            });
+        });
+    } catch (error) {
+        console.log(error)
         return res.json({'status': 500, 'Message': 'Unable to Connect Server'});   
     }
 });
@@ -53,12 +70,9 @@ router.get('/history/:userId', (req, res, next) => {
     }
 });
 
-router.put('/cancel/:userdId/:bookId', (req, res, next) => {
+router.patch('/cancel/:userdId/:bookId', (req, res, next) => {
     try {
-        db.query(queries.InActiveBookings, [req.params.userdId], (error, result) => {
-            if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
-            // req.body.status = 'Active';
-            db.query(queries.cancelBookings, [req.params.bookId], (error, result) => {
+        db.query(queries.cancelBookings, [req.params.bookId, req.params.userdId], (error, result) => {
                 console.log(error)
                 if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
     
@@ -66,7 +80,6 @@ router.put('/cancel/:userdId/:bookId', (req, res, next) => {
                     'status':200,
                     'Message': 'Booking Service Canceled Successfully'
                 });
-            });
         });
     } catch (error) {
         return res.json({'status': 500, 'Message': 'Unable to Connect Server'});   
