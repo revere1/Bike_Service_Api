@@ -14,7 +14,8 @@ router.post('/create', (req, res, next) =>{
     
                 return res.json({
                     'status':201,
-                    'Message': 'Address Added Successfully'
+                    'Message': 'Address Added Successfully',
+                    'addressId': result.insertId
                 });
             });
 

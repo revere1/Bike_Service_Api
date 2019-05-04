@@ -16,5 +16,8 @@ module.exports = {
     getAllHistoryBookings: "select * from booked_services where id_user = ?",
     InActiveBookings: "update booked_services set status = 'InActive' where id_user = ?",
     InActiveAddress:"update user_address set status = 'InActive' where id_user = ?",
-    addressStatus:"update user_address set status = 'Active' where id_user_address = ?"
+    addressStatus:"update user_address set status = 'Active' where id_user_address = ?",
+    adminBookings: "SELECT bs.id_book_services,bs.id_user,bs.user_mobile_number,bs.service_name,bs.time_slot,bs.day_slot,bs.status,up.full_name, ua.full_address, ua.city FROM booked_services bs JOIN user_profile up ON up.id_user = bs.id_user JOIN user_address ua ON ua.id_user = bs.id_user WHERE bs.status=?;",
+    adminDateBookings: "SELECT bs.id_book_services,bs.id_user,bs.user_mobile_number,bs.service_name,bs.time_slot,bs.day_slot,bs.status,up.full_name, ua.full_address, ua.city FROM booked_services bs JOIN user_profile up ON up.id_user = bs.id_user JOIN user_address ua ON ua.id_user = bs.id_user    WHERE bs.day_slot BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) GROUP BY bs.id_book_services",
+    adminFilterBookings: "SELECT bs.id_book_services,bs.id_user,bs.user_mobile_number,bs.service_name,bs.time_slot,bs.day_slot,bs.status,up.full_name, ua.full_address, ua.city FROM booked_services bs JOIN user_profile up ON up.id_user = bs.id_user JOIN user_address ua ON ua.id_user = bs.id_user"
 }

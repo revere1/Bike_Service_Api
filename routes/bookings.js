@@ -5,17 +5,14 @@ const queries = require('../config/queries');
 
 router.post('/', (req, res, next) => {
     try {
-        db.query(queries.InActiveBookings, [req.body.id_user], (error, result) => {
-            if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
-            req.body.status = 'Active';
-            db.query(queries.createBookings, [req.body], (error, result) => {
-                console.log(error)
-                if(error) return res.json({'status': 500, 'Message': 'Unable to Connect Server'});
-    
-                return res.json({
-                    'status':201,
-                    'Message': 'Address Added Successfully'
-                });
+
+        db.query(queries.createBookings, [req.body], (error, result) => {
+            console.log(error)
+            if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
+
+            return res.json({
+                'status': 201,
+                'Message': 'Address Added Successfully'
             });
         });
 
