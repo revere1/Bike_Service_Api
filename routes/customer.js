@@ -62,8 +62,8 @@ router.get('/otp/:otp/:mobileNo', (req, res) => {
         });
     } catch (error) {
         res.json({
-            'status': 400,
-            'Message': 'Mobile Number Should be 10 Digits!'
+            'status': 500,
+            'Message': 'Unable to Connect Server'
         });
     }
 

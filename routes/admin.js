@@ -3,6 +3,62 @@ const router = express.Router();
 const db = require('../config/db');
 const queries = require('../config/queries');
 
+
+router.get('/adminLogin/:mobileNo', async (req, res) => {
+    console.log("This is params: " + req.params.mobileNo.length)
+    if (req.params.mobileNo.length < 10) {
+        res.json({
+            'status': 400,
+            'Message': 'Mobile Number Should be 10 Digits!'
+        });
+    }
+
+    try {
+        var OTP = Math.floor((Math.random() * 9999) + 1111);
+        db.query(queries.checkAdmin, [req.params.mobileNo], (error, result) => {
+            console.log('error', error)
+            console.log('result', result.length)
+            if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
+            if(result && result.length > 0){
+                db.query(queries.updateAdminOtp, [OTP, req.params.mobileNo], (error, result) => {
+                    if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
+    
+                    res.json({ 'status': 200, 'Messages': OTP });
+                });
+            } else {
+                res.json({ 'status': 400, 'Message': 'You are not an Admin' });
+            }
+
+        });
+    } catch (error) {
+        res.json({ 'status': 500, 'Message': 'Internal Server Error' });
+    }
+
+    // res.json(OTP)
+});
+
+router.get('/adminOtp/:otp/:mobileNo', (req, res) => {
+    try {
+        db.query(queries.loginAdminOtp, [req.params.otp, req.params.mobileNo], (error, result) => {
+            console.log(result)
+            if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
+
+            if (result.length > 0) {
+                res.json({ 'status': 200, 'Message': 'Login Success', 'payLoad': result[0] });
+            } else {
+                res.json({ 'status': 404, 'Message': 'Please Send Valid OTP' });
+                // throw error;
+            }
+        });
+    } catch (error) {
+        res.json({
+            'status': 500,
+            'Message': 'Unable to Connect Server'
+        });
+    }
+
+});
+
 router.get('/bookings/listAll/:status', (req, res) => {
     try {
         db.query(queries.adminBookings, [req.params.status], (error, result) => {
@@ -18,6 +74,7 @@ router.get('/bookings/listAll/:status', (req, res) => {
     }
 
 });
+
 router.get('/bookings/byDate', (req, res) => {
     try {
         db.query(queries.adminDateBookings, [req.query.startDate, req.query.endDate], (error, result) => {
@@ -26,6 +83,21 @@ router.get('/bookings/byDate', (req, res) => {
             return res.json({
                 'status': 200,
                 'result': result
+            });
+        });
+    } catch (error) {
+        return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
+    }
+});
+
+router.patch('/closeBooking/:bookingId', async (req, res) => {
+    try {
+        db.query(queries.closeAdminBooking,[req.params.bookingId], (error, result) =>{
+            if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
+
+            return res.json({
+                'status': 200,
+                'result': 'Booking Service Closed Successfully!'
             });
         });
     } catch (error) {
