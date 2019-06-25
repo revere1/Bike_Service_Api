@@ -12,7 +12,7 @@ module.exports = {
     createBookings: 'insert into booked_services set ?',
     cancelBookings: "update booked_services set status = 'Cancelled' where id_book_services = ? and id_user = ?",
     getAllBookings: "select bs.*,DATE_FORMAT(bs.day_slot, '%d-%b,%Y') day_slot,up.full_name, up.mobile_number from booked_services bs left join user_profile as up on up.id_user = bs.id_user where bs.id_user = ? ORDER BY day_slot DESC;",
-    getSelectedBookingDetails: 'select * from booked_services where id_book_services = ? and id_user = ?',
+    getSelectedBookingDetails: "select id_book_services,id_user,user_address,user_mobile_number,payment,payment,user_emailid,service_name,time_slot,DATE_FORMAT(day_slot, '%d-%b,%Y') day_slot, status from booked_services where id_book_services = ? and id_user = ?;",
     getAllHistoryBookings: "select id_book_services,DATE_FORMAT(day_slot, '%d-%b,%Y') day_slot,time_slot,status from booked_services where id_user = ? ORDER BY day_slot DESC;",
     InActiveBookings: "update booked_services set status = 'InActive' where id_user = ?",
     InActiveAddress:"update user_address set status = 'InActive' where id_user = ?",
