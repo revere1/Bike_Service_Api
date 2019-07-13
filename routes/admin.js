@@ -58,7 +58,7 @@ router.get('/adminOtp/:otp/:mobileNo', (req, res) => {
     }
 
 });
-
+//active status booking
 router.get('/bookings/listAll/:status', (req, res) => {
     try {
         db.query(queries.adminBookings, [req.params.status], (error, result) => {
