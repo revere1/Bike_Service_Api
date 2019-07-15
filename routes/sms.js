@@ -1,9 +1,9 @@
 const AWS = require('aws-sdk');
 const util = require('util');
 
-const sns = new AWS.SNS({ region:'eu-east' });
+const sns = new AWS.SNS({ region:'us-east-1' });
 
-AWS.region = 'eu-east';
+AWS.region = 'us-east1';
 // AWS.config.update({ accessKeyId: 'AKIAQHOAGVVTPZTX55M4', secretAccessKey: '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' });
 
 sns.publish = util.promisify(sns.publish);
