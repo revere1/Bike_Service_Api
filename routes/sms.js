@@ -1,25 +1,30 @@
-const AWS = require('aws-sdk');
-const config = require('config');
-const util = require('util');
-const sns = new AWS.SNS({ region:'us-east-1' });
+const AWS = require("aws-sdk");
+const util = require("util");
 
-AWS.region = 'us-east1';
-AWS.config.update({ accessKeyId: 'AKIAIHOJTP6FMI3I4DKQ', secretAccessKey: '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' });
+const config = {
+  region: 'us-east-1',
+  apiVersion: "2010-03-31",
+  accessKeyId: "AKIAIKXLUBFWIL3BEOXA",
+  secretAccessKey: "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"
+};
+
+const sns = new AWS.SNS(config);
 
 sns.publish = util.promisify(sns.publish);
 
-exports.handler = async (mobileNo,OTP) => {
-    console.log('>>>>>>',mobileNo,OTP);
+exports.handler = async (mobileNo, OTP) => {
+  console.log(">>>>>>", mobileNo, OTP);
   try {
     const params = {
       Message: `Hi, Your OTP is ${OTP}- SCOPE Team.`,
-      MessageStructure: 'string',
-      PhoneNumber: `${+917893574123}`
+      MessageStructure: "string",
+      PhoneNumber: `+91${mobileNo}`
     };
+    console.log('>>..',params)
     await sns.publish(params);
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
-    throw new Error('RequestedUser Approve Email and SMS Send Failed');
+    throw new Error("RequestedUser Approve Email and SMS Send Failed");
   }
 };
+
