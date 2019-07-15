@@ -4,6 +4,7 @@ const db = require('../config/db');
 const queries = require('../config/queries');
 
 
+
 router.get('/adminLogin/:mobileNo', async (req, res) => {
     console.log("This is params: " + req.params.mobileNo.length)
     if (req.params.mobileNo.length < 10) {
@@ -18,6 +19,7 @@ router.get('/adminLogin/:mobileNo', async (req, res) => {
         db.query(queries.checkAdmin, [req.params.mobileNo], (error, result) => {
             console.log('error', error)
             console.log('result', result.length)
+           
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
             if(result && result.length > 0){
                 db.query(queries.updateAdminOtp, [OTP, req.params.mobileNo], (error, result) => {
