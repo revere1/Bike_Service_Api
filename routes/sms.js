@@ -4,8 +4,8 @@ const util = require("util");
 const config = {
   region: 'us-east-1',
   apiVersion: "2010-03-31",
-  accessKeyId: "AKIAIKXLUBFWIL3BEOXA",
-  secretAccessKey: "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"
+  accessKeyId: "AKIAINJQ4BBPTNR4UCUQ",
+  secretAccessKey: "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"
 };
 
 const sns = new AWS.SNS(config);
@@ -18,7 +18,7 @@ exports.handler = async (mobileNo, OTP) => {
     const params = {
       Message: `Hi, Your OTP is ${OTP}- SCOPE Team.`,
       MessageStructure: "string",
-      PhoneNumber: `+91${mobileNo}`
+      PhoneNumber: `+917893574123`
     };
     console.log('>>..',params)
     await sns.publish(params);
@@ -28,3 +28,4 @@ exports.handler = async (mobileNo, OTP) => {
   }
 };
 
+this.handler();
