@@ -28,4 +28,4 @@ exports.handler = async (mobileNo, OTP) => {
   }
 };
 
-this.handler();
+//this.handler();
