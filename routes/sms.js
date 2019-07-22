@@ -1,7 +1,10 @@
 const AWS = require("aws-sdk");
 const util = require("util");
 
+const config = {
+  region: 'us-east-1',
 
+};
 
 const sns = new AWS.SNS(config);
 
