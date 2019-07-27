@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const queries = require('../config/queries');
-const sms = require('./sms')
+const sendotp = require('./sendotp')
 
 router.get('/', (req, res) => {
     res.send('Customer Dashboard');
@@ -17,7 +17,7 @@ router.get('/login/:mobileNo', async (req, res) => {
             db.query(queries.checkUser, [req.params.mobileNo], (error, result) => {
                 console.log('error', error)
                 console.log('result', result)
-                sms.handler(req.params.mobileNo,OTP)
+                sendotp.handler(req.params.mobileNo,OTP)
                 if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
 
                 if (result.length > 0) {
