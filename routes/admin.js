@@ -18,7 +18,7 @@ router.get('/adminLogin/:mobileNo', async (req, res) => {
         var OTP = Math.floor((Math.random() * 9999) + 1111);
         db.query(queries.checkAdmin, [req.params.mobileNo], (error, result) => {
             console.log('error', error)
-            console.log('result', result.length)
+            console.log('result.........', result.length)
            
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
             if(result && result.length > 0){
