@@ -5,7 +5,6 @@ const queries = require('../config/queries');
 
 router.post('/', (req, res, next) => {
     try {
-
         db.query(queries.createBookings, [req.body], (error, result) => {
             console.log(error)
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
