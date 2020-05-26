@@ -37,6 +37,7 @@ router.get('/login/:mobileNo', async (req, res) => {
                 }
             });
         } catch (error) {
+            console.log("error", error)
             res.json({ 'status': 404, 'Message': 'Internal Server Error' });
         }
     } else {
