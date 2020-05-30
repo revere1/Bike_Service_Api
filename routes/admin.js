@@ -64,7 +64,9 @@ router.get('/adminOtp/:otp/:mobileNo', (req, res) => {
 router.get('/bookings/listAll/:status', (req, res) => {
     try {
         db.query(queries.adminBookings, [req.params.status], (error, result) => {
-            if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
+        console.log("result", result)
+            if (error) 
+            return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
 
             return res.json({
                 'status': 200,
