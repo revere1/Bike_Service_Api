@@ -19,12 +19,12 @@ router.get('/adminLogin/:mobileNo', async (req, res) => {
         db.query(queries.checkAdmin, [req.params.mobileNo], (error, result) => {
             console.log('error', error)
             console.log('result.........', result.length)
-           
+
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
-            if(result && result.length > 0){
+            if (result && result.length > 0) {
                 db.query(queries.updateAdminOtp, [OTP, req.params.mobileNo], (error, result) => {
                     if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
-    
+
                     res.json({ 'status': 200, 'Messages': OTP });
                 });
             } else {
@@ -64,15 +64,15 @@ router.get('/adminOtp/:otp/:mobileNo', (req, res) => {
 router.get('/bookings/listAll/:status', (req, res) => {
     try {
         db.query(queries.adminBookings, [req.params.status], (error, result) => {
-        console.log("result", result)
-            if (error) 
-            console.log("error", error)
-            return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
-
-            return res.json({
-                'status': 200,
-                'result': result
-            });
+            if (error) {
+                return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
+            }
+            else {
+                return res.json({
+                    'status': 200,
+                    'result': result
+                });
+            }
         });
     } catch (error) {
         return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
@@ -97,7 +97,7 @@ router.get('/bookings/byDate', (req, res) => {
 
 router.patch('/closeBooking/:bookingId', async (req, res) => {
     try {
-        db.query(queries.closeAdminBooking,[req.params.bookingId], (error, result) =>{
+        db.query(queries.closeAdminBooking, [req.params.bookingId], (error, result) => {
             if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
 
             return res.json({
