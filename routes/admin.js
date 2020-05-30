@@ -65,6 +65,7 @@ router.get('/bookings/listAll/:status', (req, res) => {
     try {
         db.query(queries.adminBookings, [req.params.status], (error, result) => {
             if (error) {
+                console.log("error", error)
                 return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
             }
             else {
@@ -75,6 +76,7 @@ router.get('/bookings/listAll/:status', (req, res) => {
             }
         });
     } catch (error) {
+        console.log("error", error)
         return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
     }
 
