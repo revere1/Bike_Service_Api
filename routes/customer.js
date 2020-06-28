@@ -4,6 +4,13 @@ const db = require('../config/db');
 const queries = require('../config/queries');
 const sendotp = require('./sendotp')
 
+const Nexmo = require('nexmo');
+
+const nexmo = new Nexmo({
+  apiKey: 'd4e9812a',
+  apiSecret: '1UHdBusea1YwoHg7',
+});
+
 router.get('/', (req, res) => {
     res.send('Customer Dashboard');
 });
@@ -18,6 +25,11 @@ router.get('/login/:mobileNo', async (req, res) => {
                 console.log('error', error)
                 console.log('result', result)
                 //sendotp.handler(req.params.mobileNo,OTP)
+                const from = 'Scope';
+                const to = `91${req.params.mobileNo}`;
+                const text = `${OTP} Scope SMS API`;
+                 nexmo.message.sendSms(from, to, text);
+
                 if (error) return res.json({ 'status': 500, 'Message': 'Unable to Connect Server' });
 
                 if (result.length > 0) {
